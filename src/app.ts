@@ -1,6 +1,10 @@
 import { Hono } from "hono";
 
-const app = new Hono().basePath("/api/v1");
+type Bindings = {
+    DB: D1Database;
+};
+
+const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
 
 app.get("/health", (c) => {
     const result = {

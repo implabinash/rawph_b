@@ -3,6 +3,13 @@
     "name": "rawph",
     "main": "src/main.ts",
     "compatibility_date": "2025-10-02",
+    "d1_databases": [
+        {
+            "binding": "DB",
+            "database_name": "rawph_test",
+            "database_id": "d828cf4d-a69e-467d-aa03-cfec05933f42",
+        },
+    ],
     // "compatibility_flags": [
     //   "nodejs_compat"
     // ],
