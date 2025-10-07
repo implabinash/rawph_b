@@ -3,6 +3,7 @@
     "name": "rawph",
     "main": "src/main.ts",
     "compatibility_date": "2025-10-02",
+    "compatibility_flags": ["nodejs_compat"],
     "d1_databases": [
         {
             "binding": "DB",
