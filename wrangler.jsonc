@@ -8,6 +8,7 @@
             "binding": "DB",
             "database_name": "rawph_test",
             "database_id": "d828cf4d-a69e-467d-aa03-cfec05933f42",
+            "migrations_dir": "./drizzle",
         },
     ],
     // "compatibility_flags": [
