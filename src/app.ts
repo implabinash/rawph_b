@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 
 import { getAuthClient } from "@/lib/auth";
 
@@ -7,6 +8,27 @@ type Bindings = {
 };
 
 const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
+
+app.use(
+    "*",
+    cors({
+        origin: (origin) => {
+            const allowedOrigins = [
+                "https://rawph.pages.dev",
+                "http://localhost:5173",
+            ];
+
+            if (!origin) return null;
+
+            return allowedOrigins.includes(origin) ? origin : null;
+        },
+        allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+        allowHeaders: ["Content-Type", "Authorization"],
+        exposeHeaders: ["Content-Length"],
+        maxAge: 600,
+        credentials: true,
+    }),
+);
 
 app.on(["POST", "GET"], "/auth/*", (c) => {
     const auth = getAuthClient(c.env.DB);
