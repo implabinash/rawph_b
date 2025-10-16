@@ -9,16 +9,16 @@
         "db:migrate:local": "wrangler d1 migrations apply rawph_test --local",
         "db:migrate:remote": "wrangler d1 migrations apply rawph_test --remote",
         "db:studi:local": "drizzle-kit studio --config drizzle.config.local.ts",
-        "db:studio": "drizzle-kit studio"
+        "db:studio:remote": "drizzle-kit studio"
     },
     "dependencies": {
-        "@libsql/client": "^0.15.15",
         "dotenv": "^17.2.3",
         "drizzle-orm": "^0.44.6",
         "hono": "^4.9.9"
     },
     "devDependencies": {
         "@cloudflare/workers-types": "^4.20251004.0",
+        "@libsql/client": "^0.15.15",
         "@types/node": "^24.7.0",
         "drizzle-kit": "^0.31.5",
         "tsx": "^4.20.6",
