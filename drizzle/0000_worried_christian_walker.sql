@@ -47,5 +47,4 @@ CREATE TABLE `users` (
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)) NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
-DROP TABLE `users_table`;
+CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);
