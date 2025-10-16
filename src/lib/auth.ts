@@ -24,6 +24,7 @@ export const getAuthClient = (d1: D1Database) => {
             },
         }),
         basePath: "/api/v1/auth",
+        trustedOrigins: ["https://rawph.pages.dev", "http://localhost:5173"],
 
         plugins: [openAPI()],
 
@@ -35,6 +36,7 @@ export const getAuthClient = (d1: D1Database) => {
     return auth;
 };
 
+// Only for generating Auth Table Schemas
 export const auth = betterAuth({
     database: drizzleAdapter(getDB({} as D1Database), {
         provider: "sqlite",
