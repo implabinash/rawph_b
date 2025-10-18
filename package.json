@@ -12,7 +12,6 @@
         "db:studio:remote": "drizzle-kit studio"
     },
     "dependencies": {
-        "argon2": "^0.44.0",
         "dotenv": "^17.2.3",
         "drizzle-orm": "^0.44.6",
         "hono": "^4.9.9",
