@@ -49,31 +49,27 @@ export const signUpWithEmail = async (c: Context) => {
     const image = Math.floor(Math.random() * 5).toString();
 
     const sessionToken = generateSessionToken();
-    const expiresAt = new Date(
-        Date.now() + 7 * 24 * 60 * 60 * 1000,
-    ).toISOString();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     let userID = "";
 
     try {
-        await db.transaction(async (tx) => {
-            const [user] = await tx
-                .insert(usersTable)
-                .values({
-                    name: result.data.name,
-                    email: result.data.email,
-                    password: hashedPassword,
-                    image,
-                })
-                .returning({ userID: usersTable.id });
+        const [user] = await db
+            .insert(usersTable)
+            .values({
+                name: result.data.name,
+                email: result.data.email,
+                password: hashedPassword,
+                image,
+            })
+            .returning({ userID: usersTable.id });
 
-            userID = user.userID;
+        userID = user.userID;
 
-            await db.insert(sessionsTable).values({
-                token: sessionToken,
-                userId: userID,
-                expiresAt,
-            });
+        await db.insert(sessionsTable).values({
+            token: sessionToken,
+            userId: userID,
+            expiresAt,
         });
     } catch (err) {
         console.log("Sign Up & Session Creation Error: ", err);
@@ -90,10 +86,10 @@ export const signUpWithEmail = async (c: Context) => {
 
     setCookie(c, "rawph_session_token", sessionToken, {
         httpOnly: true,
-        sameSite: "Lax",
+        sameSite: "None",
+        secure: true,
         path: "/",
         maxAge: 7 * 24 * 60 * 60,
-        secure: true,
     });
 
     const response = {
