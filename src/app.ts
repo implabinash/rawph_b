@@ -1,5 +1,6 @@
 import { cors } from "hono/cors";
 import { Hono } from "hono";
+import authRoute from "@/routes/auth.route";
 
 type Bindings = {
     DB: D1Database;
@@ -28,6 +29,8 @@ app.use(
         maxAge: 600,
     }),
 );
+
+app.route("/auth", authRoute);
 
 // Health Status
 app.get("/health", (c) => {

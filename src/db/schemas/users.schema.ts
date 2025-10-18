@@ -1,17 +1,18 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
+import { randomUUID } from "crypto";
 
 export const usersTable = sqliteTable("users", {
-    id: text("id").primaryKey(),
+    id: text("id")
+        .primaryKey()
+        .notNull()
+        .unique()
+        .$defaultFn(() => randomUUID()),
 
     name: text("name").notNull(),
-
     email: text("email").notNull().unique(),
-    emailVerified: integer("email_verified", { mode: "boolean" })
-        .default(false)
-        .notNull(),
-
-    image: text("image"),
+    password: text("password").notNull(),
+    image: text("image").notNull(),
 
     createdAt: integer("created_at", { mode: "timestamp_ms" })
         .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
