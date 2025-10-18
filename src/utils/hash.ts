@@ -1,16 +1,26 @@
-import * as argon2 from "argon2";
+import { scrypt } from "@noble/hashes/scrypt.js";
+import { randomBytes } from "@noble/hashes/utils.js";
 
-export const hashPassword = async (password: string) => {
-    const hashedPassword = await argon2.hash(password);
+export async function hashPassword(password: string): Promise<string> {
+    const salt = randomBytes(16);
+    const hash = scrypt(password, salt, { N: 2 ** 14, r: 8, p: 1, dkLen: 32 });
 
-    return hashedPassword;
-};
+    const combined = new Uint8Array(salt.length + hash.length);
+    combined.set(salt);
+    combined.set(hash, salt.length);
 
-export const verifyPassword = async (
-    enteredPassword: string,
-    storedPassword: string,
-) => {
-    const result = await argon2.verify(storedPassword, enteredPassword);
+    return Buffer.from(combined).toString("base64");
+}
 
-    return result;
-};
+export async function verifyPassword(
+    password: string,
+    stored: string,
+): Promise<boolean> {
+    const combined = Buffer.from(stored, "base64");
+    const salt = combined.slice(0, 16);
+    const originalHash = combined.slice(16);
+
+    const hash = scrypt(password, salt, { N: 2 ** 14, r: 8, p: 1, dkLen: 32 });
+
+    return Buffer.from(hash).equals(originalHash);
+}
