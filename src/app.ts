@@ -1,5 +1,5 @@
-import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { Hono } from "hono";
 
 type Bindings = {
     DB: D1Database;
@@ -7,6 +7,7 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
 
+// CORS Settings
 app.use(
     "*",
     cors({
@@ -22,12 +23,13 @@ app.use(
         },
         allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
         allowHeaders: ["Content-Type", "Authorization", "Cookie"],
-        exposeHeaders: ["Content-Length"],
-        maxAge: 600,
+        exposeHeaders: ["Set-Cookie"],
         credentials: true,
+        maxAge: 600,
     }),
 );
 
+// Health Status
 app.get("/health", (c) => {
     const result = {
         success: true,
@@ -37,6 +39,7 @@ app.get("/health", (c) => {
     return c.json(result, 200);
 });
 
+// Default 404 Not Found Handler
 app.notFound((c) => {
     const result = {
         success: false,
