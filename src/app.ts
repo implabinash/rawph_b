@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-import { getAuthClient } from "@/lib/auth";
-
 type Bindings = {
     DB: D1Database;
 };
@@ -23,17 +21,12 @@ app.use(
             return allowedOrigins.includes(origin) ? origin : null;
         },
         allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-        allowHeaders: ["Content-Type", "Authorization"],
+        allowHeaders: ["Content-Type", "Authorization", "Cookie"],
         exposeHeaders: ["Content-Length"],
         maxAge: 600,
         credentials: true,
     }),
 );
-
-app.on(["POST", "GET"], "/auth/*", (c) => {
-    const auth = getAuthClient(c.env.DB);
-    return auth.handler(c.req.raw);
-});
 
 app.get("/health", (c) => {
     const result = {
