@@ -85,10 +85,10 @@ export const signUpWithEmail = async (c: Context) => {
     }
 
     setCookie(c, "rawph_session_token", sessionToken, {
+        path: "/",
+        secure: true,
         httpOnly: true,
         sameSite: "None",
-        secure: true,
-        path: "/",
         maxAge: 7 * 24 * 60 * 60,
     });
 
