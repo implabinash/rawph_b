@@ -51,16 +51,13 @@ export const changePasswordSchema = z
             }),
         confirmPassword: z
             .string()
-            .min(6, { message: "Password must be at least 6 characters long" })
-            .max(16, { message: "Password must not exceed 16 characters" })
-            .regex(/[0-9]/, {
-                message: "Password must contain at least one number",
-            })
-            .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {
-                message: "Password must contain at least one special character",
-            }),
+            .min(6, { message: "Password must be at least 6 characters long" }),
     })
     .refine((data) => data.newPassword === data.confirmPassword, {
-        message: "New password and confirm password must match",
+        message: "Passwords do not match",
         path: ["confirmPassword"],
+    })
+    .refine((data) => data.currentPassword !== data.newPassword, {
+        message: "New password must be different from current password",
+        path: ["newPassword"],
     });
