@@ -2,6 +2,7 @@ import { cors } from "hono/cors";
 import { Hono } from "hono";
 
 import authRoute from "@/routes/auth.route";
+import usersRoute from "@/routes/users.route";
 
 type Bindings = {
     DB: D1Database;
@@ -31,6 +32,7 @@ app.use(
 );
 
 app.route("/auth", authRoute);
+app.route("/users", usersRoute);
 
 app.get("/health", (c) => {
     const result = {
