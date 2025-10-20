@@ -92,7 +92,7 @@ export const signInWithEmail = async (c: Context) => {
         success: true,
         data: {},
         error: {},
-        message: "Signed In Successfully.",
+        message: "Signed In successfully.",
     };
 
     return c.json(response, 200);
