@@ -40,7 +40,7 @@ export const changePassword = async (c: Context) => {
             message: "Invalid session.",
         };
 
-        return c.json(response, 400);
+        return c.json(response, 401);
     }
 
     const data = await getSessionData(c.env.DB, sessionToken);
@@ -53,7 +53,7 @@ export const changePassword = async (c: Context) => {
             message: "Invalid session.",
         };
 
-        return c.json(response, 400);
+        return c.json(response, 401);
     }
 
     const isValidPassword = await verifyPassword(
@@ -66,7 +66,7 @@ export const changePassword = async (c: Context) => {
             success: false,
             data: {},
             error: {},
-            message: "Invalid email or password.",
+            message: "Current password is incorrect.",
         };
 
         return c.json(response, 401);
@@ -81,7 +81,7 @@ export const changePassword = async (c: Context) => {
             .set({ password: newHashedPassword })
             .where(eq(usersTable.id, data.users.id));
     } catch (err) {
-        console.log("Password change error: ", err);
+        console.error("Password change error: ", err);
 
         const response = {
             success: false,
