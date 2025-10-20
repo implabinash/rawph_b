@@ -1,8 +1,8 @@
 import { cors } from "hono/cors";
 import { Hono } from "hono";
 
-import authRoute from "@/routes/auth.route";
 import usersRoute from "@/routes/users.route";
+import authRoute from "@/routes/auth.route";
 
 type Bindings = {
     DB: D1Database;
