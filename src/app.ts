@@ -1,7 +1,6 @@
 import { cors } from "hono/cors";
 import { Hono } from "hono";
 import authRoute from "@/routes/auth.route";
-import { setCookie } from "hono/cookie";
 
 type Bindings = {
     DB: D1Database;
@@ -9,7 +8,6 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
 
-// CORS Settings
 app.use(
     "*",
     cors({
@@ -33,7 +31,6 @@ app.use(
 
 app.route("/auth", authRoute);
 
-// Health Status
 app.get("/health", (c) => {
     const result = {
         success: true,
@@ -43,7 +40,6 @@ app.get("/health", (c) => {
     return c.json(result, 200);
 });
 
-// Default 404 Not Found Handler
 app.notFound((c) => {
     const result = {
         success: false,

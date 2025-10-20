@@ -3,11 +3,11 @@ import { Context } from "hono";
 import { z } from "zod/v4";
 
 import { signUpSchema } from "@/validations/auth.validate";
+import { hashPassword } from "@/utils/hash";
 import { findUserByEmail } from "@/db/queries/users.query";
 import { sessionsTable } from "@/db/schemas/auth.schema";
 import { generateSessionToken } from "@/utils/session";
 import { usersTable } from "@/db/schemas/users.schema";
-import { hashPassword } from "@/utils/hash";
 import { getDB } from "@/db";
 
 export const signUpWithEmail = async (c: Context) => {
@@ -49,7 +49,7 @@ export const signUpWithEmail = async (c: Context) => {
     const image = Math.floor(Math.random() * 5).toString();
 
     const sessionToken = generateSessionToken();
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
     let userID = "";
 
@@ -89,7 +89,7 @@ export const signUpWithEmail = async (c: Context) => {
         secure: true,
         httpOnly: true,
         sameSite: "None",
-        maxAge: 7 * 24 * 60 * 60,
+        maxAge: 30 * 24 * 60 * 60,
     });
 
     const response = {
