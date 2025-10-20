@@ -3,11 +3,12 @@ import { Context } from "hono";
 import { z } from "zod/v4";
 
 import { signUpSchema } from "@/validations/auth.validate";
-import { hashPassword } from "@/utils/hash";
 import { findUserByEmail } from "@/db/queries/users.query";
 import { sessionsTable } from "@/db/schemas/auth.schema";
 import { generateSessionToken } from "@/utils/session";
 import { usersTable } from "@/db/schemas/users.schema";
+import { COOKIE_NAME } from "@/utils/constants";
+import { hashPassword } from "@/utils/hash";
 import { getDB } from "@/db";
 
 export const signUpWithEmail = async (c: Context) => {
@@ -84,7 +85,7 @@ export const signUpWithEmail = async (c: Context) => {
         return c.json(response, 500);
     }
 
-    setCookie(c, "rawph_session_token", sessionToken, {
+    setCookie(c, COOKIE_NAME, sessionToken, {
         path: "/",
         secure: true,
         httpOnly: true,

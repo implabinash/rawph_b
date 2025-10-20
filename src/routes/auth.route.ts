@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 
+import { changePassword } from "@/controllers/auth/password.controller";
 import { signUpWithEmail } from "@/controllers/auth/signup.controller";
 import { signInWithEmail } from "@/controllers/auth/signin.controller";
-import { changePassword } from "@/controllers/auth/password.controller";
 
 const authRoute = new Hono();
 

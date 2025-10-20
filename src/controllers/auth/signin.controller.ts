@@ -6,6 +6,7 @@ import { findUserByEmail } from "@/db/queries/users.query";
 import { signInSchema } from "@/validations/auth.validate";
 import { sessionsTable } from "@/db/schemas/auth.schema";
 import { generateSessionToken } from "@/utils/session";
+import { COOKIE_NAME } from "@/utils/constants";
 import { verifyPassword } from "@/utils/hash";
 import { getDB } from "@/db";
 
@@ -80,7 +81,7 @@ export const signInWithEmail = async (c: Context) => {
         return c.json(response, 500);
     }
 
-    setCookie(c, "rawph_session_token", sessionToken, {
+    setCookie(c, COOKIE_NAME, sessionToken, {
         httpOnly: true,
         sameSite: "None",
         secure: true,
