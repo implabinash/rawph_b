@@ -73,7 +73,7 @@ export const signUpWithEmail = async (c: Context) => {
             expiresAt,
         });
     } catch (err) {
-        console.log("Sign Up & Session Creation Error: ", err);
+        console.error("Sign Up & Session Creation Error: ", err);
 
         const response = {
             success: false,

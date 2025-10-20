@@ -69,7 +69,7 @@ export const signInWithEmail = async (c: Context) => {
             expiresAt,
         });
     } catch (err) {
-        console.log("Sign In error: ", err);
+        console.error("Signin error: ", err);
 
         const response = {
             success: false,
