@@ -77,9 +77,9 @@ export const getCurrentUser = async (c: Context) => {
 
         setCookie(c, COOKIE_NAME, sessionToken, {
             path: "/",
-            httpOnly: true,
             secure: true,
-            sameSite: "Lax",
+            httpOnly: true,
+            sameSite: "None",
             expires: newExpiresAt,
         });
     }
