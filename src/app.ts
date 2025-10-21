@@ -21,7 +21,9 @@ app.use(
 
             if (!origin) return null;
 
-            return allowedOrigins.includes(origin) ? origin : null;
+            return allowedOrigins.includes(origin)
+                ? origin
+                : "https://rawph.pages.dev";
         },
         allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
         allowHeaders: ["Content-Type", "Authorization", "Cookie"],
