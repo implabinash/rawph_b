@@ -27,7 +27,7 @@ export const getCurrentUser = async (c: Context) => {
 
     const data = await getSessionData(c.env.DB, sessionToken);
 
-    if (!data.users) {
+    if (!data || !data.users) {
         const response = {
             success: false,
             data: {},
