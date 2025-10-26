@@ -3,15 +3,23 @@
     "name": "rawph",
     "main": "src/main.ts",
     "compatibility_date": "2025-10-02",
-    "compatibility_flags": ["nodejs_compat"],
-    "d1_databases": [
+
+    "durable_objects": {
+        "bindings": [
+            {
+                "name": "DO",
+                "class_name": "WebSocketServer",
+            },
+        ],
+    },
+
+    "migrations": [
         {
-            "binding": "DB",
-            "database_name": "rawph_db",
-            "database_id": "d81f2c3f-a21e-43be-b6c6-79163a055049",
-            "migrations_dir": "./drizzle",
+            "tag": "v1",
+            "new_sqlite_classes": ["WebSocketServer"],
         },
     ],
+
     "observability": {
         "logs": {
             "enabled": false,
@@ -20,36 +28,4 @@
             "persist": true,
         },
     },
-    // "compatibility_flags": [
-    //   "nodejs_compat"
-    // ],
-    // "vars": {
-    //   "MY_VAR": "my-variable"
-    // },
-    // "kv_namespaces": [
-    //   {
-    //     "binding": "MY_KV_NAMESPACE",
-    //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-    //   }
-    // ],
-    // "r2_buckets": [
-    //   {
-    //     "binding": "MY_BUCKET",
-    //     "bucket_name": "my-bucket"
-    //   }
-    // ],
-    // "d1_databases": [
-    //   {
-    //     "binding": "MY_DB",
-    //     "database_name": "my-database",
-    //     "database_id": ""
-    //   }
-    // ],
-    // "ai": {
-    //   "binding": "AI"
-    // },
-    // "observability": {
-    //   "enabled": true,
-    //   "head_sampling_rate": 1
-    // }
 }

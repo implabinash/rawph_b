@@ -1,11 +1,10 @@
 import { cors } from "hono/cors";
 import { Hono } from "hono";
 
-import usersRoute from "@/routes/users.route";
-import authRoute from "@/routes/auth.route";
+import { handleWS } from "@/controllers/ws.controller";
 
 type Bindings = {
-    DB: D1Database;
+    DO: DurableObjectNamespace;
 };
 
 const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
@@ -13,28 +12,11 @@ const app = new Hono<{ Bindings: Bindings }>().basePath("/api/v1");
 app.use(
     "*",
     cors({
-        origin: (origin) => {
-            const allowedOrigins = [
-                "https://rawph.pages.dev",
-                "http://localhost:5173",
-            ];
-
-            if (!origin) return null;
-
-            return allowedOrigins.includes(origin)
-                ? origin
-                : "https://rawph.pages.dev";
-        },
-        allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-        allowHeaders: ["Content-Type", "Authorization", "Cookie"],
-        exposeHeaders: ["Set-Cookie"],
-        credentials: true,
-        maxAge: 600,
+        origin: ["https://rawph.pages.dev", "http://localhost:5173"],
     }),
 );
 
-app.route("/auth", authRoute);
-app.route("/users", usersRoute);
+app.get("/ws/:id", handleWS);
 
 app.get("/health", (c) => {
     const result = {
