@@ -51,7 +51,7 @@ export class WebSocketServer extends DurableObject {
             userId,
             name,
             image,
-            userRole,
+            userRole: userRole as "ss" | "sr" | "sm",
         };
 
         server.serializeAttachment(sessionData);
