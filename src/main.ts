@@ -1,4 +1,4 @@
-export { WebSocketServer } from "@/controllers/ws.controller";
+export { WebSocketServer } from "@/do/websocket";
 import app from "@/app";
 
 export default app;
