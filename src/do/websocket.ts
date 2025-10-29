@@ -72,7 +72,7 @@ export class WebSocketServer extends DurableObject {
                 this.sendToSs(data, ws);
             }
 
-            if (data.for === "sp") {
+            if (data.for === "all") {
                 this.broadcast(data, ws);
             }
         } catch (e) {
