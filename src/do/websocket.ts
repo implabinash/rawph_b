@@ -72,8 +72,12 @@ export class WebSocketServer extends DurableObject {
                 this.sendToSs(data, ws);
             }
 
-            if (data.for === "all") {
+            if (data.for === "broadcast") {
                 this.broadcast(data, ws);
+            }
+
+            if (data.for === "all") {
+                this.sendToAll(data);
             }
         } catch (e) {
             console.error("Invalid message:", e);
@@ -113,6 +117,24 @@ export class WebSocketServer extends DurableObject {
         for (const [ws, session] of this.sessions.entries()) {
             try {
                 if (ws !== sender && ws.readyState === WebSocket.OPEN) {
+                    ws.send(payload);
+                }
+            } catch (e) {
+                console.error(
+                    `Failed to send to session ${session.userId}:`,
+                    e,
+                );
+                this.sessions.delete(ws);
+            }
+        }
+    }
+
+    sendToAll(message: any) {
+        const payload = JSON.stringify(message);
+
+        for (const [ws, session] of this.sessions.entries()) {
+            try {
+                if (ws.readyState === WebSocket.OPEN) {
                     ws.send(payload);
                 }
             } catch (e) {
