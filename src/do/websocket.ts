@@ -9,6 +9,7 @@ type SessionData = {
 
 export class WebSocketServer extends DurableObject {
     sessions: Map<WebSocket, SessionData>;
+    MAX_PARTICIPANTS = 2;
 
     constructor(ctx: DurableObjectState, env: Env) {
         super(ctx, env);
@@ -27,6 +28,15 @@ export class WebSocketServer extends DurableObject {
         const upgradeHeader = request.headers.get("Upgrade");
         if (!upgradeHeader || upgradeHeader !== "websocket") {
             return new Response("Expected Upgrade: websocket", { status: 426 });
+        }
+
+        if (this.sessions.size >= this.MAX_PARTICIPANTS) {
+            return new Response(
+                "Room is full. Maximum 2 participants allowed.",
+                {
+                    status: 403,
+                },
+            );
         }
 
         const pair = new WebSocketPair();
